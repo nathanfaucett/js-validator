@@ -1,4 +1,4 @@
-EventEmitter
+validator
 =======
 
-EventEmitter for the browser and node.js
+validator for the browser and node.js
