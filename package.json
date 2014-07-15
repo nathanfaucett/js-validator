@@ -1,0 +1,25 @@
+{
+  "name": "validator",
+  "version": "0.0.1",
+  "description": "validator for the browser and node.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nathanfaucett/validator.git"
+  },
+  "main": "src/index.js",
+  "keywords": [
+    "validator",
+    "validator.js"
+  ],
+  "author": "Nathan Faucett",
+  "license": "BSD-2-Clause",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "",
+    "grunt-jsbeautifier": ""
+  },
+  "dependencies": {
+    "utils": "nathanfaucett/utils"
+  }
+}
+
