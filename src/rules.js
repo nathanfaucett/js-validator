@@ -96,6 +96,12 @@ rules.ip = function(str, version) {
     return version === "6" && IPv6.test(str);
 };
 
+rules.string = function(str) {
+    return utils.isString(str);
+};
+
+rules.text = rules.string;
+
 rules.alpha = function(str) {
     return ALPHA.test(str);
 };
@@ -105,7 +111,7 @@ rules.alphanumeric = function(str) {
 };
 
 rules.numeric = function(str) {
-    return NUMERIC.test(str);
+    return utils.isNumber(str) || NUMERIC.test(str);
 };
 
 rules.hexadecimal = function(str) {
@@ -125,14 +131,17 @@ rules.uppercase = function(str) {
 };
 
 rules.int = function(str) {
-    return str !== "" && INT.test(str);
+    return utils.isInteger(str) || (str !== "" && INT.test(str));
 };
 
+rules.integer = rules.int;
+
 rules.float = function(str) {
-    return str !== "" && FLOAT.test(str);
+    return utils.isDecimal(str) || (str !== "" && FLOAT.test(str));
 };
 
 rules.divisibleBy = function(str, num) {
+    if (utils.isNumber(str) && utils.isNumber(num)) return str % num === 0;
     return validator.toFloat(str) % validator.toInt(num) === 0;
 };
 
@@ -151,6 +160,14 @@ rules.byteLength = function(str, min, max) {
     return str.length >= min && (typeof(max) === "undefined" || str.length <= max);
 };
 
+rules.minLength = function(str, min) {
+    return str.length >= max;
+};
+
+rules.maxLength = function(str, max) {
+    return str.length <= max;
+};
+
 rules.uuid = function(str, version) {
     var pattern = UUID[version ? version : "all"];
     return pattern && pattern.test(str);
@@ -159,6 +176,10 @@ rules.uuid = function(str, version) {
 rules.date = function(str) {
     return !isNaN(Date.parse(str));
 };
+
+rules.datetime = rules.date;
+
+rules.time = rules.date;
 
 rules.after = function(str, date) {
     var comparison = validator.toDate(date || new Date()),
