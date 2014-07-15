@@ -48,7 +48,7 @@ rules.equals = function(str, comparison) {
 };
 
 rules.contains = function(str, elem) {
-    return str.indexOf(validator.toString(elem)) >= 0;
+    return str.indexOf(validator.toString(elem)) !== -1;
 };
 
 rules.matches = function(str, pattern, modifiers) {
