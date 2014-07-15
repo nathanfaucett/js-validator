@@ -44,7 +44,7 @@ var rules = module.exports,
     NOT_NUMBERS = /[^0-9]+/g;
 
 rules.equals = function(str, comparison) {
-    return str === validator.toString(comparison);
+    return str === comparison;
 };
 
 rules.contains = function(str, elem) {
@@ -96,11 +96,9 @@ rules.ip = function(str, version) {
     return version === "6" && IPv6.test(str);
 };
 
-rules.string = function(str) {
-    return utils.isString(str);
-};
+rules.string = utils.isString;
 
-rules.text = rules.string;
+rules.text = utils.isString;
 
 rules.alpha = function(str) {
     return ALPHA.test(str);
@@ -196,15 +194,8 @@ rules.before = function(str, date) {
 };
 
 rules.in = function(str, options) {
-    var array, i, il;
-
     if (!options || typeof(options.indexOf) !== "function") {
         return false;
-    }
-    if (utils.isArray(options)) {
-        array = [];
-        for (i = 0, il = options.length; i < il; i++) array[i] = validator.toString(options[i]);
-        options = array;
     }
 
     return options.indexOf(str) !== -1;

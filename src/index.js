@@ -20,6 +20,7 @@ validator.toString = function(obj) {
 
 validator.toDate = function(date) {
     if (utils.isDate(date)) return data;
+    if (utils.isNumber(date)) return new Date(date);
     date = Date.parse(date);
     return !isNaN(date) ? new Date(date) : null;
 };
@@ -39,13 +40,21 @@ validator.toBoolean = function(str, strict) {
 
 validator.validate = function(ruleName, str) {
     var rule = rules[ruleName],
-        value;
+        value, length, args;
 
     if (!rule) throw new Error("validator.validate(ruleName, str[, ruleArgs...])");
 
-    if (arguments.length > 2) {
-        args = slice.call(arguments, 1);
-        value = rule.apply(rules, args);
+    if ((length = arguments.length) > 2) {
+        if (length === 3) {
+            value = rule.call(rules, arguments[3]);
+        } else if (length === 4) {
+            value = rule.call(rules, arguments[3], arguments[4]);
+        } else if (length === 5) {
+            value = rule.call(rules, arguments[3], arguments[4], arguments[5]);
+        } else {
+            args = slice.call(arguments, 1);
+            value = rule.apply(rules, args);
+        }
     } else {
         value = rule(str);
     }
