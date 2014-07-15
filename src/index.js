@@ -25,7 +25,7 @@ validator.toDate = function(date) {
 };
 
 validator.toFloat = function(str) {
-    return +str;
+    return parseFloat(str);
 };
 
 validator.toInt = function(str, radix) {
