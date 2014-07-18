@@ -1,0 +1,72 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@1.4.14
+3 info using node@v0.11.14-pre
+4 verbose readDependencies using package.json deps
+5 verbose install where, deps [ '/var/www/html5/node/validator',
+5 verbose install   [ 'utils', 'grunt', 'grunt-jsbeautifier' ] ]
+6 info preinstall validator@0.0.1
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'utils@https://github.com/nathanfaucett/utils', null ]
+9 verbose cache add name=undefined spec="utils@https://github.com/nathanfaucett/utils" args=["utils@https://github.com/nathanfaucett/utils",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'utils@https://github.com/nathanfaucett/utils',
+10 verbose parsed url   path: 'utils@https://github.com/nathanfaucett/utils',
+10 verbose parsed url   href: 'utils@https://github.com/nathanfaucett/utils' }
+11 verbose already installed skipping grunt@ /var/www/html5/node/validator
+12 verbose cache add name="utils" spec="https://github.com/nathanfaucett/utils" args=["utils","https://github.com/nathanfaucett/utils"]
+13 verbose parsed url { protocol: 'https:',
+13 verbose parsed url   slashes: true,
+13 verbose parsed url   auth: null,
+13 verbose parsed url   host: 'github.com',
+13 verbose parsed url   port: null,
+13 verbose parsed url   hostname: 'github.com',
+13 verbose parsed url   hash: null,
+13 verbose parsed url   search: null,
+13 verbose parsed url   query: null,
+13 verbose parsed url   pathname: '/nathanfaucett/utils',
+13 verbose parsed url   path: '/nathanfaucett/utils',
+13 verbose parsed url   href: 'https://github.com/nathanfaucett/utils' }
+14 verbose already installed skipping grunt-jsbeautifier@ /var/www/html5/node/validator
+15 silly lockFile 6d79233a-s-github-com-nathanfaucett-utils https://github.com/nathanfaucett/utils
+16 verbose lock https://github.com/nathanfaucett/utils /home/nathan/.npm/6d79233a-s-github-com-nathanfaucett-utils.lock
+17 verbose addRemoteTarball [ 'https://github.com/nathanfaucett/utils', null ]
+18 info retry fetch attempt 1 at 17:39:58
+19 verbose fetch to= /tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils
+20 http GET https://github.com/nathanfaucett/utils
+21 http 200 https://github.com/nathanfaucett/utils
+22 verbose tar unpack /tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils
+23 silly lockFile 4bf2a0c2-b-com-nathanfaucett-utils-unpack tar:///tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils-unpack
+24 verbose lock tar:///tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils-unpack /home/nathan/.npm/4bf2a0c2-b-com-nathanfaucett-utils-unpack.lock
+25 silly lockFile 6eeb14c5-r-github-com-nathanfaucett-utils tar:///tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils
+26 verbose lock tar:///tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils /home/nathan/.npm/6eeb14c5-r-github-com-nathanfaucett-utils.lock
+27 silly gunzTarPerm modes [ '755', '644' ]
+28 error not a package /tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils
+29 silly lockFile 4bf2a0c2-b-com-nathanfaucett-utils-unpack tar:///tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils-unpack
+30 silly lockFile 4bf2a0c2-b-com-nathanfaucett-utils-unpack tar:///tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils-unpack
+31 silly lockFile 6eeb14c5-r-github-com-nathanfaucett-utils tar:///tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils
+32 silly lockFile 6eeb14c5-r-github-com-nathanfaucett-utils tar:///tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils
+33 silly lockFile 6d79233a-s-github-com-nathanfaucett-utils https://github.com/nathanfaucett/utils
+34 silly lockFile 6d79233a-s-github-com-nathanfaucett-utils https://github.com/nathanfaucett/utils
+35 error Error: ENOENT, open '/tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils-unpack/package.json'
+35 error     at Error (native)
+36 error If you need help, you may report this *entire* log,
+36 error including the npm and node versions, at:
+36 error     <http://github.com/npm/npm/issues>
+37 error System Linux 3.5.0-18-generic
+38 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install"
+39 error cwd /var/www/html5/node/validator
+40 error node -v v0.11.14-pre
+41 error npm -v 1.4.14
+42 error path /tmp/npm-19071-dqsf_yKr/github.com/nathanfaucett/utils-unpack/package.json
+43 error code ENOENT
+44 error errno -2
+45 verbose exit [ -2, true ]

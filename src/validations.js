@@ -201,39 +201,36 @@ validations.isHexColor = function(str) {
 };
 
 validations.isLowercase = function(str) {
-    str = validations.toString(str);
 
     return str === str.toLowerCase();
 };
 
 validations.isUppercase = function(str) {
-    str = validations.toString(str);
 
     return str === str.toUpperCase();
 };
 
 validations.isInt = function(str) {
-    str = validations.toString(str);
 
-    return str !== "" && INT.test(str);
+    return utils.isInteger(str) || INT.test(validations.toString(str));
 };
 
 validations.isFloat = function(str) {
-    str = validations.toString(str);
 
-    return str !== "" && FLOAT.test(str);
+    return utils.isDecimal(str) || FLOAT.test(validations.toString(str));
 };
 
 validations.isDivisibleBy = function(str, num) {
-    str = validations.toString(str);
+    if (utils.isString(str)) {
+        str = validations.toFloat(str);
+    }
 
-    return validations.toFloat(str) % validations.toInt(num) === 0;
+    return str % validations.toInt(num) === 0;
 };
 
 validations.isNull = function(str) {
-    str = validations.toString(str);
 
-    return str.length === 0;
+    return validations.toString(str).length === 0;
 };
 
 validations.isLength = function(str, min, max) {
@@ -251,10 +248,9 @@ validations.isByteLength = function(str, min, max) {
 };
 
 validations.isUUID = function(str, version) {
-    str = validations.toString(str);
     var pattern = UUID[version ? version : "all"];
 
-    return pattern && pattern.test(str);
+    return pattern && pattern.test(validations.toString(str));
 };
 
 validations.isDate = function(str) {
@@ -264,29 +260,33 @@ validations.isDate = function(str) {
 };
 
 validations.isAfter = function(str, date) {
-    str = validations.toString(str);
     var comparison = validations.toDate(date || new Date()),
-        original = validations.toDate(str);
+        original = validations.toDate(validations.toString(str));
 
     return !!(original && comparison && original > comparison);
 };
 
 validations.isBefore = function(str, date) {
-    str = validations.toString(str);
     var comparison = validations.toDate(date || new Date()),
-        original = validations.toDate(str);
+        original = validations.toDate(validations.toString(str));
 
     return original && comparison && original < comparison;
 };
 
 validations.isIn = function(str, options) {
-    str = validations.toString(str);
+    var i, array = options;
 
     if (!options || typeof(options.indexOf) !== "function") {
         return false;
     }
+    if (utils.isArray(options)) {
+        i = options.length;
+        array = [];
 
-    return options.indexOf(str) !== -1;
+        while (i--) array.push(options[i]);
+    }
+
+    return array.indexOf(validations.toString(str)) !== -1;
 };
 
 validations.isCreditCard = function(str) {
@@ -408,12 +408,4 @@ validations.isBase64 = function(str) {
     str = validations.toString(str);
 
     return BASE_64.test(str);
-};
-
-validations.extend = function(name, fn) {
-    validations[name] = function() {
-        var args = slice.call(arguments);
-        args[0] = validations.toString(args[0]);
-        return fn.apply(validations, args);
-    };
 };

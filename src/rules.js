@@ -6,7 +6,7 @@ var rules = module.exports;
 
 rules.empty = utils.isEmpty;
 
-rules.notEmpty = function() {
+rules.not_empty = rules.notempty = rules.notEmpty = function() {
     if (!obj && obj !== 0) {
         obj = "";
     } else if (typeof(obj.toString) !== "undefined") {
@@ -30,10 +30,6 @@ rules.required = function(obj) {
     return !validations.isNull(obj);
 };
 
-rules.protected = function(obj) {
-    return true;
-};
-
 rules.undefined = utils.isUndefined;
 
 rules.object = utils.isObject;
@@ -54,13 +50,13 @@ rules.string = utils.isString;
 
 rules.alpha = validations.isAlpha;
 
-rules.alpha_dashed = rules.alphadashed = validations.isAlphaDashed;
+rules.alpha_dashed = rules.alphadashed = rules.alphaDashed = validations.isAlphaDashed;
 
 rules.numeric = validations.isNumeric;
 
-rules.alpha_numeric = rules.alphanumeric = validations.isAlphaNumeric;
+rules.alpha_numeric = rules.alphanumeric = rules.alphaNumeric = validations.isAlphaNumeric;
 
-rules.alpha_numeric_dashed = rules.alphanumericdashed = validations.isAlphaNumericDashed;
+rules.alpha_numeric_dashed = rules.alphanumericdashed = rules.alphaNumericDashed = validations.isAlphaNumericDashed;
 
 rules.email = validations.isEmail;
 
@@ -74,7 +70,7 @@ rules.ipv4 = validations.isIPv4;
 
 rules.ipv6 = validations.isIPv6;
 
-rules.credit_card = rules.creditcard = validations.isCreditCard;
+rules.credit_card = rules.creditcard = rules.creditCard = validations.isCreditCard;
 
 rules.uuid = validations.isUUID;
 
@@ -108,7 +104,7 @@ rules.truthy = function(obj) {
 
 rules.null = utils.isNull;
 
-rules.notNull = function(obj) {
+rules.not_null = rules.notnull = rules.notNull = function(obj) {
     return !validations.isNull(obj);
 };
 
@@ -122,7 +118,7 @@ rules.binary = function(obj) {
 
 rules.date = validations.isDate;
 
-rules.datetime = validations.isDate;
+rules.date_time = rules.datetime = validations.isDate;
 
 rules.hexa_decimal = rules.hexadecimal = validations.isHexadecimal;
 
@@ -140,7 +136,7 @@ rules.equals = validations.equals;
 
 rules.contains = validations.contains;
 
-rules.notContains = function(obj, str) {
+rules.not_contains = rules.notcontains = rules.notContains = function(obj, str) {
     return !validations.contains(obj, str);
 };
 
@@ -165,21 +161,21 @@ rules.min = function(str, num) {
     return isNaN(number) || number >= num;
 };
 
-rules.greater_than = rules.greaterThan = function(str, num) {
+rules.greater_than = rules.greaterthan = rules.greaterThan = function(str, num) {
     var number = parseFloat(str);
     return isNaN(number) || number > num;
 };
 
-rules.less_than = rules.lessThan = function(str, num) {
+rules.less_than = rules.lessthan = rules.lessThan = function(str, num) {
     var number = parseFloat(str);
     return isNaN(number) || number < num;
 };
 
-rules.max_length = rules.maxLength = function(str, max) {
+rules.max_length = rules.maxlength = rules.maxLength = function(str, max) {
     return validations.isLength(str, 0, max);
 };
 
-rules.min_length = rules.minLength = function(str, min) {
+rules.min_length = rules.minlength = rules.minLength = function(str, min) {
     return validations.isLength(str, min);
 };
 
@@ -187,6 +183,6 @@ rules.regex = function(str, regex) {
     return validations.matches(str, regex);
 };
 
-rules.notRegex = rules.not_regex = rules.notregex = function(str, regex) {
+rules.not_regex = rules.notregex = rules.notRegex = function(str, regex) {
     return !validations.matches(str, regex);
 };
