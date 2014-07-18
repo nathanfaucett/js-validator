@@ -1,65 +1,96 @@
 var utils = require("utils"),
-    rules = require("./rules");
+    rules = require("./rules"),
+    validations = require("./validations");
 
 
 var validator = module.exports,
     slice = Array.prototype.slice;
 
 
-validator.toString = function(obj) {
-    if (typeof(obj) === "object" && obj !== null && obj.toString) {
-        obj = obj.toString();
-    } else if (obj === null || typeof(obj) === "undefined" || (isNaN(obj) && !obj.length)) {
-        obj = "";
-    } else if (typeof(obj) !== "string") {
-        obj += "";
-    }
+function RuleError(rule, message) {
 
-    return obj;
-};
+    Error.call(this);
 
-validator.toDate = function(date) {
-    if (utils.isDate(date)) return data;
-    if (utils.isNumber(date)) return new Date(date);
-    date = Date.parse(date);
-    return !isNaN(date) ? new Date(date) : null;
-};
+    this.name = rule;
+    this.message = rule + ": " + (message || "Unknown rule");
+    Error.captureStackTrace(this, this.constructor);
 
-validator.toFloat = function(str) {
-    return parseFloat(str);
-};
+    return this;
+}
+RuleError.prototype = Object.create(Error.prototype);
+RuleError.prototype.constructor = RuleError;
 
-validator.toInt = function(str, radix) {
-    return parseInt(str, radix || 10);
-};
 
-validator.toBoolean = function(str, strict) {
-    if (strict) return str === "1" || str === "true";
-    return str !== "0" && str !== "false" && str !== "";
-};
+validator.rules = rules;
+validator.validations = validations;
+validator.RuleError = RuleError;
 
-validator.validate = function(ruleName, str) {
+
+validator.matchRule = function(ruleName, data) {
     var rule = rules[ruleName],
         value, length, args;
 
-    if (!rule) throw new Error("validator.validate(ruleName, str[, ruleArgs...])");
+    if (!rule) return new RuleError(ruleName);
 
     if ((length = arguments.length) > 2) {
         if (length === 3) {
-            value = rule.call(rules, arguments[3]);
+            value = rule.call(rules, arguments[1], arguments[2]);
         } else if (length === 4) {
-            value = rule.call(rules, arguments[3], arguments[4]);
+            value = rule.call(rules, arguments[1], arguments[2], arguments[3]);
         } else if (length === 5) {
-            value = rule.call(rules, arguments[3], arguments[4], arguments[5]);
+            value = rule.call(rules, arguments[1], arguments[2], arguments[3], arguments[4]);
         } else {
             args = slice.call(arguments, 1);
             value = rule.apply(rules, args);
         }
     } else {
-        value = rule(str);
+        value = rule(data);
     }
 
-    return value;
+    if (!value) {
+        return new RuleError(ruleName, "validation rule failed");
+    }
+
+    return null;
 };
 
-validator.rules = rules;
+validator.match = function(ruleSet, data) {
+    var errors = [],
+        rules, args,
+        obj;
+
+    for (var name in data) {
+        rules = ruleSet[name];
+        obj = data[name];
+
+        if (!rules || !obj) continue;
+
+        for (var ruleName in rules) {
+            if (ruleName === "type") ruleName = rules[ruleName];
+
+            args = rules[ruleName];
+            args = utils.isArray(args) ? args : [args];
+            args.unshift(errors, ruleName, obj);
+
+            matchType.apply(null, args);
+        }
+    }
+
+    return errors;
+};
+
+function matchType(errors, ruleName, data) {
+    var rule = rules[ruleName],
+        value, args;
+
+    if (rule) {
+        args = slice.call(arguments, 1);
+        value = validator.matchRule.apply(validator, args);
+
+        if (value) errors.push(value);
+    } else {
+        errors.push(new RuleError(ruleName));
+    }
+
+    return errors;
+};
