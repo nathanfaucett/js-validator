@@ -26,21 +26,27 @@ validator.validations = validations;
 validator.RuleError = RuleError;
 
 
-validator.matchRule = function(ruleName, data) {
+validator.matchRule = function(ruleName, data, args) {
     var rule = rules[ruleName],
-        value, length, args;
+        value, length;
 
     if (!rule) return new RuleError(ruleName);
 
-    if ((length = arguments.length) > 2) {
-        if (length === 3) {
-            value = rule.call(rules, arguments[1], arguments[2]);
-        } else if (length === 4) {
-            value = rule.call(rules, arguments[1], arguments[2], arguments[3]);
-        } else if (length === 5) {
-            value = rule.call(rules, arguments[1], arguments[2], arguments[3], arguments[4]);
+    if (arguments.length > 2) {
+        if (utils.isArray(args)) {
+            args.unshift(data);
         } else {
             args = slice.call(arguments, 1);
+        }
+        length = args.length;
+
+        if (length === 2) {
+            value = rule.call(rules, args[0], args[1]);
+        } else if (length === 3) {
+            value = rule.call(rules, args[0], args[1], args[2]);
+        } else if (length === 4) {
+            value = rule.call(rules, args[0], args[1], args[2], args[3]);
+        } else {
             value = rule.apply(rules, args);
         }
     } else {
@@ -52,45 +58,4 @@ validator.matchRule = function(ruleName, data) {
     }
 
     return null;
-};
-
-validator.match = function(ruleSet, data) {
-    var errors = [],
-        rules, args,
-        obj;
-
-    for (var name in data) {
-        rules = ruleSet[name];
-        obj = data[name];
-
-        if (!rules || !obj) continue;
-
-        for (var ruleName in rules) {
-            if (ruleName === "type") ruleName = rules[ruleName];
-
-            args = rules[ruleName];
-            args = utils.isArray(args) ? args : [args];
-            args.unshift(errors, ruleName, obj);
-
-            matchType.apply(null, args);
-        }
-    }
-
-    return errors;
-};
-
-function matchType(errors, ruleName, data) {
-    var rule = rules[ruleName],
-        value, args;
-
-    if (rule) {
-        args = slice.call(arguments, 1);
-        value = validator.matchRule.apply(validator, args);
-
-        if (value) errors.push(value);
-    } else {
-        errors.push(new RuleError(ruleName));
-    }
-
-    return errors;
 };
