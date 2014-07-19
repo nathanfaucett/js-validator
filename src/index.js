@@ -26,7 +26,7 @@ validator.validations = validations;
 validator.RuleError = RuleError;
 
 
-validator.matchRule = function(ruleName, data, args) {
+validator.match = function(ruleName, data, args) {
     var rule = rules[ruleName],
         value, length;
 
@@ -53,9 +53,7 @@ validator.matchRule = function(ruleName, data, args) {
         value = rule(data);
     }
 
-    if (!value) {
-        return new RuleError(ruleName, "validation rule failed");
-    }
+    if (!value) return new RuleError(ruleName, "validation rule failed");
 
     return null;
 };
