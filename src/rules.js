@@ -4,6 +4,12 @@ var utils = require("utils"),
 
 var rules = module.exports;
 
+
+rules.type = function(str, type) {
+    var rule = rules[type];
+    return rule && utils.isFunction(rule) ? rule(str) : false;
+};
+
 rules.empty = utils.isEmpty;
 
 rules.not_empty = rules.notempty = rules.notEmpty = function() {
