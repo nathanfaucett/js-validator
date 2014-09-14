@@ -6,14 +6,14 @@ var utils = require("utils"),
 var rules = module.exports;
 
 
-rules.type = function(str, type) {
-    var rule = rules[type];
+rules.type = function(str, typeStr) {
+    var rule = rules[typeStr];
     return rule && type.isFunction(rule) ? rule(str) : false;
 };
 
 rules.empty = utils.isEmpty;
 
-rules.not_empty = rules.notempty = rules.notEmpty = function() {
+rules.not_empty = rules.notempty = rules.notEmpty = function(obj) {
     if (!obj && obj !== 0) {
         obj = "";
     } else if (typeof(obj.toString) !== "undefined") {

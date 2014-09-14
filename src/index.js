@@ -1,5 +1,6 @@
 var utils = require("utils"),
     rules = require("./rules"),
+    errors = require("./errors"),
     validations = require("./validations");
 
 
@@ -7,23 +8,9 @@ var validator = module.exports,
     slice = Array.prototype.slice;
 
 
-function RuleError(rule, message) {
-
-    Error.call(this);
-
-    this.name = rule;
-    this.message = rule + ": " + (message || "Unknown rule");
-    Error.captureStackTrace(this, this.constructor);
-
-    return this;
-}
-RuleError.prototype = utils.create(Error.prototype);
-RuleError.prototype.constructor = RuleError;
-
-
 validator.rules = rules;
+validator.errors = errors;
 validator.validations = validations;
-validator.RuleError = RuleError;
 
 
 validator.match = function(ruleName, data, args) {
@@ -53,7 +40,7 @@ validator.match = function(ruleName, data, args) {
         value = rule(data);
     }
 
-    if (!value) return new RuleError(ruleName, "validation rule failed");
+    if (!value) return (errors[ruleName] ? errors[ruleName] : "invalid");
 
     return null;
 };
