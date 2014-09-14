@@ -17,7 +17,7 @@ validator.match = function(ruleName, data, args) {
     var rule = rules[ruleName],
         value, length;
 
-    if (!rule) return new RuleError(ruleName);
+    if (!rule) return "no rule named " + ruleName;
 
     if (arguments.length > 2) {
         if (utils.isArray(args)) {
