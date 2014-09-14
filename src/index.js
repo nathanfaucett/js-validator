@@ -1,4 +1,5 @@
-var rules = require("./rules"),
+var type = require("type"),
+    rules = require("./rules"),
     errors = require("./errors"),
     validations = require("./validations");
 
