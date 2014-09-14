@@ -21,6 +21,7 @@ validator.match = function(ruleName, data, args) {
 
     if (arguments.length > 2) {
         if (type.isArray(args)) {
+            args = args.slice();
             args.unshift(data);
         } else {
             args = slice.call(arguments, 1);
