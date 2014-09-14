@@ -17,7 +17,7 @@ function RuleError(rule, message) {
 
     return this;
 }
-RuleError.prototype = Object.create(Error.prototype);
+RuleError.prototype = utils.create(Error.prototype);
 RuleError.prototype.constructor = RuleError;
 
 

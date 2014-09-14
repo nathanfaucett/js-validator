@@ -1,4 +1,5 @@
 var utils = require("utils"),
+    type = require("type"),
     validations = require("./validations");
 
 
@@ -7,7 +8,7 @@ var rules = module.exports;
 
 rules.type = function(str, type) {
     var rule = rules[type];
-    return rule && utils.isFunction(rule) ? rule(str) : false;
+    return rule && type.isFunction(rule) ? rule(str) : false;
 };
 
 rules.empty = utils.isEmpty;
@@ -36,12 +37,12 @@ rules.required = function(obj) {
     return !validations.isNull(obj);
 };
 
-rules.undefined = utils.isUndefined;
+rules["undefined"] = type.isUndefined;
 
-rules.object = utils.isObject;
+rules.object = type.isObject;
 
 rules.json = function(obj) {
-    if (obj == null) return false;
+    if (obj === undefined || obj === null) return false;
     try {
         JSON.stringify(obj);
     } catch (e) {
@@ -50,9 +51,9 @@ rules.json = function(obj) {
     return true;
 };
 
-rules.text = utils.isString;
+rules.text = type.isString;
 
-rules.string = utils.isString;
+rules.string = type.isString;
 
 rules.alpha = validations.isAlpha;
 
@@ -88,17 +89,17 @@ rules.uuidv4 = function(obj) {
     return validations.isUUID(x, 4);
 };
 
-rules.int = validations.isInt;
+rules["int"] = validations.isInt;
 
 rules.integer = validations.isInt;
 
-rules.number = utils.isNumber;
+rules.number = type.isNumber;
 
-rules.finite = utils.isFinite;
+rules.finite = type.isFinite;
 
 rules.decimal = validations.isFloat;
 
-rules.float = validations.isFloat;
+rules["float"] = validations.isFloat;
 
 rules.falsey = function(obj) {
     return !obj;
@@ -108,18 +109,18 @@ rules.truthy = function(obj) {
     return !!obj;
 };
 
-rules.null = utils.isNull;
+rules["null"] = type.isNull;
 
 rules.not_null = rules.notnull = rules.notNull = function(obj) {
     return !validations.isNull(obj);
 };
 
-rules.bool = rules.boolean = utils.isBoolean;
+rules.bool = rules["boolean"] = type.isBoolean;
 
-rules.array = utils.isArray;
+rules.array = type.isArray;
 
 rules.binary = function(obj) {
-    return Buffer.isBuffer(obj) || utils.isString(obj);
+    return Buffer.isBuffer(obj) || type.isString(obj);
 };
 
 rules.date = validations.isDate;
@@ -151,7 +152,7 @@ rules.length = rules.len = function(obj, min, max) {
     return obj.length >= min && (max != undefined ? obj.length <= max : true);
 };
 
-rules.in = validations.isIn;
+rules["in"] = validations.isIn;
 
 rules.not_in = rules.notIn = function(str, options) {
     return !validations.isIn(str, options);

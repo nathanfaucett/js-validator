@@ -1,4 +1,5 @@
-var utils = require("utils");
+var utils = require("utils"),
+    type = require("type");
 
 
 var validations = module.exports,
@@ -50,7 +51,7 @@ var validations = module.exports,
 validations.toString = function(obj) {
     if (typeof(obj) === "object" && obj !== null && obj.toString) {
         obj = obj.toString();
-    } else if (obj === null || typeof(obj) === "undefined" || (isNaN(obj) && !obj.length)) {
+    } else if (obj === null || typeof(obj) === "undefined" || (type.isNaN(obj) && !obj.length)) {
         obj = "";
     } else if (typeof(obj) !== "string") {
         obj += "";
@@ -60,21 +61,22 @@ validations.toString = function(obj) {
 };
 
 validations.toDate = function(date) {
-    if (utils.isDate(date)) return data;
-    if (utils.isNumber(date)) return new Date(date);
+    if (type.isDate(date)) return data;
+    if (type.isNumber(date)) return new Date(date);
     date = Date.parse(date);
-    return !isNaN(date) ? new Date(date) : null;
+    return !type.isNaN(date) ? new Date(date) : null;
 };
 
 validations.toFloat = function(str) {
-    return parseFloat(str);
+    return typeof(str) === "number" ? str : parseFloat(str);
 };
 
 validations.toInt = function(str, radix) {
-    return parseInt(str, radix || 10);
+    return typeof(str) === "number" ? str : parseInt(str, radix || 10);
 };
 
 validations.toBoolean = function(str, strict) {
+    if (type.isBoolean(str)) return !!str;
     if (strict) return str === "1" || str === "true";
     return str !== "0" && str !== "false" && str !== "";
 };
@@ -94,7 +96,7 @@ validations.contains = function(str, elem) {
 validations.matches = function(str, pattern, modifiers) {
     str = validations.toString(str);
 
-    if (!utils.isRegExp(pattern)) {
+    if (!type.isRegExp(pattern)) {
         pattern = new RegExp(pattern, modifiers);
     }
     return pattern.test(str);
@@ -212,16 +214,16 @@ validations.isUppercase = function(str) {
 
 validations.isInt = function(str) {
 
-    return utils.isInteger(str) || INT.test(validations.toString(str));
+    return type.isInteger(str) || INT.test(validations.toString(str));
 };
 
 validations.isFloat = function(str) {
 
-    return utils.isDecimal(str) || FLOAT.test(validations.toString(str));
+    return type.isDecimal(str) || FLOAT.test(validations.toString(str));
 };
 
 validations.isDivisibleBy = function(str, num) {
-    if (utils.isString(str)) {
+    if (type.isString(str)) {
         str = validations.toFloat(str);
     }
 
@@ -256,7 +258,7 @@ validations.isUUID = function(str, version) {
 validations.isDate = function(str) {
     str = validations.toString(str);
 
-    return !isNaN(Date.parse(str));
+    return !type.isNaN(Date.parse(str));
 };
 
 validations.isAfter = function(str, date) {
@@ -279,7 +281,7 @@ validations.isIn = function(str, options) {
     if (!options || typeof(options.indexOf) !== "function") {
         return false;
     }
-    if (utils.isArray(options)) {
+    if (type.isArray(options)) {
         i = options.length;
         array = [];
 
