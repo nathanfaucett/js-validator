@@ -1,5 +1,4 @@
-var utils = require("utils"),
-    rules = require("./rules"),
+var rules = require("./rules"),
     errors = require("./errors"),
     validations = require("./validations");
 
@@ -20,7 +19,7 @@ validator.match = function(ruleName, data, args) {
     if (!rule) return "no rule named " + ruleName;
 
     if (arguments.length > 2) {
-        if (utils.isArray(args)) {
+        if (type.isArray(args)) {
             args.unshift(data);
         } else {
             args = slice.call(arguments, 1);
@@ -37,7 +36,7 @@ validator.match = function(ruleName, data, args) {
             value = rule.apply(rules, args);
         }
     } else {
-        value = rule(data);
+        value = rules[ruleName](data);
     }
 
     if (!value) return (errors[ruleName] ? errors[ruleName] : "invalid");
