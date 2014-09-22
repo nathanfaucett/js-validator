@@ -107,9 +107,9 @@ errors.max = "is greater than max";
 
 errors.min = "is less than min";
 
-errors.greater_than = errors.greaterthan = errors.greaterThan = "is greater than min";
+errors.greater_than = errors.greaterthan = errors.greaterThan = "is less than";
 
-errors.less_than = errors.lessthan = errors.lessThan = "is less than min";
+errors.less_than = errors.lessthan = errors.lessThan = "is greater than";
 
 errors.max_length = errors.maxlength = errors.maxLength = "is invalid length";
 
