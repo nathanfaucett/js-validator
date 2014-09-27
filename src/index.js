@@ -17,7 +17,7 @@ validator.match = function(ruleName, data, args) {
     var rule = rules[ruleName],
         value, length;
 
-    if (!rule) return "no rule named " + ruleName;
+    if (!rule) throw new Error("validator.match(ruleName, data, args) no ruled defined named " + ruleName);
 
     if (arguments.length > 2) {
         if (type.isArray(args)) {
@@ -41,7 +41,13 @@ validator.match = function(ruleName, data, args) {
         value = rules[ruleName](data);
     }
 
-    if (!value) return (errors[ruleName] ? errors[ruleName] : "invalid");
+    if (!value) {
+        return {
+            rule: ruleName,
+            data: data,
+            args: args ? args.slice(1) : null
+        };
+    }
 
     return null;
 };
