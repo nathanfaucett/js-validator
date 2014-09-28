@@ -1,6 +1,5 @@
 var type = require("type"),
     rules = require("./rules"),
-    errors = require("./errors"),
     validations = require("./validations");
 
 
@@ -9,7 +8,6 @@ var validator = module.exports,
 
 
 validator.rules = rules;
-validator.errors = errors;
 validator.validations = validations;
 
 

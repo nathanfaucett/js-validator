@@ -82,11 +82,11 @@ rules.credit_card = rules.creditcard = rules.creditCard = validations.isCreditCa
 rules.uuid = validations.isUUID;
 
 rules.uuidv3 = function(obj) {
-    return validations.isUUID(x, 3);
+    return validations.isUUID(obj, 3);
 };
 
 rules.uuidv4 = function(obj) {
-    return validations.isUUID(x, 4);
+    return validations.isUUID(obj, 4);
 };
 
 rules["int"] = validations.isInt;
@@ -149,7 +149,7 @@ rules.not_contains = rules.notcontains = rules.notContains = function(obj, str) 
 
 rules.length = rules.len = function(obj, min, max) {
     obj = validations.toString(obj);
-    return obj.length >= min && (max != undefined ? obj.length <= max : true);
+    return obj.length >= min && (max != null ? obj.length <= max : true);
 };
 
 rules["in"] = validations.isIn;
