@@ -1,5 +1,12 @@
-var utils = require("utils"),
-    type = require("type");
+var mixin = require("mixin"),
+    isArray = require("is_array"),
+    isNaNPolyfill = require("is_nan"),
+    isDate = require("is_date"),
+    isBoolean = require("is_boolean"),
+    isInteger = require("is_integer"),
+    isDecimal = require("is_decimal"),
+    isRegExp = require("is_regexp"),
+    isNumber = require("is_number");
 
 
 var validations = module.exports,
@@ -48,7 +55,7 @@ var validations = module.exports,
 validations.toString = function(obj) {
     if (typeof(obj) === "object" && obj !== null && obj.toString) {
         obj = obj.toString();
-    } else if (obj === null || typeof(obj) === "undefined" || (type.isNaN(obj) && !obj.length)) {
+    } else if (obj === null || typeof(obj) === "undefined" || (isNaNPolyfill(obj) && !obj.length)) {
         obj = "";
     } else if (typeof(obj) !== "string") {
         obj += "";
@@ -58,10 +65,10 @@ validations.toString = function(obj) {
 };
 
 validations.toDate = function(date) {
-    if (type.isDate(date)) return data;
-    if (type.isNumber(date)) return new Date(date);
+    if (isDate(date)) return data;
+    if (isNumber(date)) return new Date(date);
     date = Date.parse(date);
-    return !type.isNaN(date) ? new Date(date) : null;
+    return !isNaNPolyfill(date) ? new Date(date) : null;
 };
 
 validations.toFloat = function(str) {
@@ -73,7 +80,7 @@ validations.toInt = function(str, radix) {
 };
 
 validations.toBoolean = function(str, strict) {
-    if (type.isBoolean(str)) return !!str;
+    if (isBoolean(str)) return !!str;
     if (strict) return str === "1" || str === "true";
     return str !== "0" && str !== "false" && str !== "";
 };
@@ -93,7 +100,7 @@ validations.contains = function(str, elem) {
 validations.matches = function(str, pattern, modifiers) {
     str = validations.toString(str);
 
-    if (!type.isRegExp(pattern)) {
+    if (!isRegExp(pattern)) {
         pattern = new RegExp(pattern, modifiers);
     }
     return pattern.test(str);
@@ -117,7 +124,7 @@ validations.isURL = function(str, options) {
     if (!str || str.length >= 2083) {
         return false;
     }
-    options = utils.mixin(options || {}, defaultURLOptions);
+    options = mixin(options || {}, defaultURLOptions);
     var separators = "-?-?" + (options.allowUnderscores ? "_?" : ""),
         url = new RegExp("^(?!mailto:)(?:(?:" + options.protocols.join("|") + ")://)" + (options.requireProtocol ? "" : "?") + "(?:\\S+(?::\\S*)?@)?(?:(?:(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[0-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:www.)?)?(?:(?:[a-z\\u00a1-\\uffff0-9]+" + separators + ")*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]+" + separators + ")*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))" + (options.requireTLD ? "" : "?") + ")|localhost)(?::(\\d{1,5}))?(?:(?:/|\\?|#)[^\\s]*)?$", "i"),
         match = str.match(url),
@@ -211,16 +218,16 @@ validations.isUppercase = function(str) {
 
 validations.isInt = function(str) {
 
-    return type.isInteger(str) || INT.test(validations.toString(str));
+    return isInteger(str) || INT.test(validations.toString(str));
 };
 
 validations.isFloat = function(str) {
 
-    return type.isDecimal(str) || FLOAT.test(validations.toString(str));
+    return isDecimal(str) || FLOAT.test(validations.toString(str));
 };
 
 validations.isDivisibleBy = function(str, num) {
-    if (type.isString(str)) {
+    if (isString(str)) {
         str = validations.toFloat(str);
     }
 
@@ -255,7 +262,7 @@ validations.isUUID = function(str, version) {
 validations.isDate = function(str) {
     str = validations.toString(str);
 
-    return !type.isNaN(Date.parse(str));
+    return !isNaNPolyfill(Date.parse(str));
 };
 
 validations.isAfter = function(str, date) {
@@ -278,7 +285,7 @@ validations.isIn = function(str, options) {
     if (!options || typeof(options.indexOf) !== "function") {
         return false;
     }
-    if (type.isArray(options)) {
+    if (isArray(options)) {
         i = options.length;
         array = [];
 

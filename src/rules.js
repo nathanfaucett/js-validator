@@ -1,5 +1,13 @@
-var utils = require("utils"),
-    type = require("type"),
+var isEmpty = require("is_empty"),
+    isArray = require("is_array"),
+    isUndefined = require("is_undefined"),
+    isObject = require("is_object"),
+    isFunction = require("is_function"),
+    isString = require("is_string"),
+    isNumber = require("is_number"),
+    isFinitePolyfill = require("is_finite"),
+    isNull = require("is_null"),
+    isBoolean = require("is_boolean"),
     validations = require("./validations");
 
 
@@ -8,10 +16,10 @@ var rules = module.exports;
 
 rules.type = function(str, typeStr) {
     var rule = rules[typeStr];
-    return rule && type.isFunction(rule) ? rule(str) : false;
+    return rule && isFunction(rule) ? rule(str) : false;
 };
 
-rules.empty = utils.isEmpty;
+rules.empty = isEmpty;
 
 rules.not_empty = rules.notempty = rules.notEmpty = function(obj) {
     if (!obj && obj !== 0) {
@@ -37,9 +45,9 @@ rules.required = function(obj) {
     return !validations.isNull(obj);
 };
 
-rules["undefined"] = type.isUndefined;
+rules["undefined"] = isUndefined;
 
-rules.object = type.isObject;
+rules.object = isObject;
 
 rules.json = function(obj) {
     if (obj === undefined || obj === null) return false;
@@ -51,9 +59,9 @@ rules.json = function(obj) {
     return true;
 };
 
-rules.text = type.isString;
+rules.text = isString;
 
-rules.string = type.isString;
+rules.string = isString;
 
 rules.alpha = validations.isAlpha;
 
@@ -93,9 +101,9 @@ rules["int"] = validations.isInt;
 
 rules.integer = validations.isInt;
 
-rules.number = type.isNumber;
+rules.number = isNumber;
 
-rules.finite = type.isFinite;
+rules.finite = isFinitePolyfill;
 
 rules.decimal = validations.isFloat;
 
@@ -109,18 +117,18 @@ rules.truthy = function(obj) {
     return !!obj;
 };
 
-rules["null"] = type.isNull;
+rules["null"] = isNull;
 
 rules.not_null = rules.notnull = rules.notNull = function(obj) {
     return !validations.isNull(obj);
 };
 
-rules.bool = rules["boolean"] = type.isBoolean;
+rules.bool = rules["boolean"] = isBoolean;
 
-rules.array = type.isArray;
+rules.array = isArray;
 
 rules.binary = function(obj) {
-    return Buffer.isBuffer(obj) || type.isString(obj);
+    return Buffer.isBuffer(obj) || isString(obj);
 };
 
 rules.date = validations.isDate;

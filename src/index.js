@@ -1,4 +1,4 @@
-var type = require("type"),
+var isArray = require("is_array"),
     rules = require("./rules"),
     validations = require("./validations");
 
@@ -18,7 +18,7 @@ validator.match = function(ruleName, data, args) {
     if (!rule) throw new Error("validator.match(ruleName, data, args) no ruled defined named " + ruleName);
 
     if (arguments.length > 2) {
-        if (type.isArray(args)) {
+        if (isArray(args)) {
             args = args.slice();
             args.unshift(data);
         } else {
