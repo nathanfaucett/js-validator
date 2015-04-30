@@ -32,7 +32,7 @@
     "is_null": "nathanfaucett/is_null",
     "is_nan": "nathanfaucett/is_nan",
     "is_date": "nathanfaucett/is_date",
-    "is_regexp": "nathanfaucett/is_regexp",
+    "is_reg_exp": "nathanfaucett/is_reg_exp",
     "is_integer": "nathanfaucett/is_integer",
     "is_decimal": "nathanfaucett/is_decimal",
     "is_boolean": "nathanfaucett/is_boolean"

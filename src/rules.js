@@ -11,7 +11,7 @@ var isEmpty = require("is_empty"),
     validations = require("./validations");
 
 
-var rules = module.exports;
+var rules = exports;
 
 
 rules.type = function(str, typeStr) {

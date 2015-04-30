@@ -3,7 +3,7 @@ var isArray = require("is_array"),
     validations = require("./validations");
 
 
-var validator = module.exports,
+var validator = exports,
     slice = Array.prototype.slice;
 
 
